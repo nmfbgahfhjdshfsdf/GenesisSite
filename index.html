@@ -627,14 +627,16 @@
 <body>
 
 <!-- VIDEO WALLPAPER -->
-<video id="wallpaper" src="wallpaper.mp4" autoplay muted loop playsinline></video>
+<video id="wallpaper" autoplay muted loop playsinline>
+  <source src="wallpaper.mp4" type="video/mp4">
+</video>
 
 <!-- SNAP PREVIEW -->
 <div id="snap-preview"></div>
 
 <!-- DESKTOP ICONS -->
 <div id="icon-grid">
-  <div class="desk-icon" ondblclick="openBrowser()">
+  <div class="desk-icon" ondblclick="openBrowser('https://duckduckgo.com','DuckDuckGo','🦆')">
     <div class="icon-img">🌐</div>
     <span>Browser</span>
   </div>
@@ -656,7 +658,7 @@
   </div>
   <div class="sm-section-label">Pinned</div>
   <div class="sm-grid">
-    <div class="sm-app" onclick="openBrowser('https://www.croxyproxy.com','Web Proxy','🌐');closeStart()">
+    <div class="sm-app" onclick="openBrowser('https://duckduckgo.com','DuckDuckGo','🦆');closeStart()">
       <span class="sm-icon">🦆</span><span>Browser</span>
     </div>
     <div class="sm-app" onclick="notify('Mail','Opening mail...','📧');closeStart()">
@@ -906,7 +908,7 @@
 
 <!-- CONTEXT MENU -->
 <div id="ctx-menu">
-  <div class="ctx-item" onclick="openBrowser('https://www.croxyproxy.com','Web Proxy','🌐');closeCtx()">🦆 Open Browser</div>
+  <div class="ctx-item" onclick="openBrowser('https://duckduckgo.com','DuckDuckGo','🦆');closeCtx()">🦆 Open Browser</div>
   <div class="ctx-item" onclick="closeCtx()">🖼️ Change Wallpaper</div>
   <div class="ctx-sep"></div>
   <div class="ctx-item" onclick="openSettings();closeCtx()">⚙️ Display Settings</div>
@@ -1049,7 +1051,7 @@ function createWindow({ id, title, icon='🪟', x, y, w, h, content, onCreated }
 }
 
 // ── BROWSER APP ──
-function openBrowser(url='https://www.croxyproxy.com', tabTitle='Web Proxy', tabIcon='🌐') {
+function openBrowser(url='https://duckduckgo.com', tabTitle='DuckDuckGo', tabIcon='🦆') {
   const winId = 'browser-win';
   if (windows[winId]) { focusWindow(winId); return; }
 
@@ -1093,7 +1095,7 @@ function openBrowser(url='https://www.croxyproxy.com', tabTitle='Web Proxy', tab
         const ntb = document.createElement('button');
         ntb.className = 'new-tab-btn';
         ntb.textContent = '+';
-        ntb.onclick = () => { tabs.push({ url:'https://www.croxyproxy.com', title:'New Tab', icon:'🌐' }); activeTab = tabs.length-1; render(); };
+        ntb.onclick = () => { tabs.push({ url:'https://duckduckgo.com', title:'New Tab', icon:'🦆' }); activeTab = tabs.length-1; render(); };
         tabBar.appendChild(ntb);
 
         // Address bar
@@ -1262,13 +1264,11 @@ let currentWallpaper = 0;
 function setWallpaper(idx) {
   currentWallpaper = idx;
   const vid = document.getElementById('wallpaper');
-  const names = ['Fox','Field','Sukuna Fuga'];
-  vid.pause();
-  vid.setAttribute('src', WALLPAPERS[idx]);
+  vid.src = WALLPAPERS[idx];
   vid.load();
-  vid.play().catch(()=>{});
+  vid.play();
   document.querySelectorAll('.wp-thumb').forEach((t,i) => t.classList.toggle('selected', i===idx));
-  notify('Background changed', names[idx], '🖼️');
+  notify('Background changed', ['Fox','Field','Sukuna Fuga'][idx], '🖼️');
 }
 
 // ── ACCENT COLOR ──
@@ -1389,4 +1389,3 @@ function showSettingsPage(name, el) {
 </script>
 </body>
 </html>
-
